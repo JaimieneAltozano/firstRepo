@@ -37,3 +37,10 @@ body {
 }
 
 /* Here finishes the reset CSS */
+body{
+  background-color: rgb(233, 215, 188);
+}
+
+hr{
+  background-color: rgb(243, 200, 137);
+}
