@@ -34,6 +34,7 @@ html:focus-within {
 body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  text-align: justify;
 }
 
 /* Here finishes the reset CSS */
@@ -44,3 +45,4 @@ body{
 hr{
   background-color: rgb(243, 200, 137);
 }
+
