@@ -44,5 +44,28 @@ body{
 
 hr{
   background-color: rgb(243, 200, 137);
+  border: 0.1em solid rgb(248, 195, 115);
+  border-radius: 0.1em;
 }
 
+section{
+  width: 116.5em;
+  border: 15px solid rgb(248, 195, 115);
+  border-radius: 5em;
+  padding: 50px;
+  margin: 20px;
+  background-color: bisque;
+}
+
+h1{
+  padding: 40px;
+}
+
+nav{
+  text-align-last: left;
+  
+}
+
+a{
+  color: brown;
+}
