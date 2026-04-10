@@ -37,6 +37,7 @@ body {
   text-align: justify;
 }
 
+
 /* Here finishes the reset CSS */
 body{
   background-color: rgb(233, 215, 188);
@@ -53,19 +54,38 @@ section{
   border: 15px solid rgb(248, 195, 115);
   border-radius: 5em;
   padding: 50px;
-  margin: 20px;
   background-color: bisque;
 }
 
 h1{
   padding: 40px;
+  margin-top: 30px;
 }
 
 nav{
-  text-align-last: left;
-  
+  display: flex;
+  gap: 10px; /* Separación entre palabras */
+  padding: 20px 20px 20px 20px;
+  background-color: rgb(248, 195, 115);
+  position: fixed; 
+  width: 100%;
+  margin-bottom: 20px;
 }
+
+
 
 a{
   color: brown;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+a:hover{
+  color: rgb(70, 18, 18);
+}
+
+img{
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px 2px rgba(71, 18, 18, 0.3);
 }
