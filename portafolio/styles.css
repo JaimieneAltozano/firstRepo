@@ -1,0 +1,105 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+
+
+/* Here 
+finishes 
+the 
+reset 
+CSS */
+
+header{
+  display:flex; /* Acomoda de forma horizontal */
+  justify-content: space-around;
+}
+
+body{
+  background-color: rgb(233, 215, 188);
+}
+
+hr{
+  background-color: rgb(243, 200, 137);
+  border: 0.1em solid rgb(248, 195, 115);
+  border-radius: 0.1em;
+}
+
+section{
+  width: 116.5em;
+  border: 1em solid rgb(248, 195, 115);
+  border-radius: 5em;
+  padding: 50px;
+  background-color: bisque;
+}
+
+/* Margin de los bordes hacia fuera
+y padding es de los bordes hacia dentro */
+
+h1{
+  padding: 40px;
+  margin-top: 30px; 
+}
+
+nav{
+  display: flex;
+  gap: 10px; /* Separación entre cosas
+  dependiendo de cómo se tenga organizado
+  (horizontal o vertical */
+  padding: 20px;
+  background-color: rgb(248, 195, 115);
+  position: fixed; 
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+a{
+  color: brown;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+a:hover{
+  color: rgb(70, 18, 18);
+}
+
+img{
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px 2px rgba(71, 18, 18, 0.3);
+}
