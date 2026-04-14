@@ -1,3 +1,15 @@
+top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  margin-bottom: 2rem;
+
+
+
+
+
+
+
 # inventario.py
 
 This is a simple Python program where the user can register products and calculate the total cost of the inventory.
