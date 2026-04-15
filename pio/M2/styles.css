@@ -46,7 +46,10 @@ reset
 CSS */
 
 header{
-  display:flex; /* Acomoda de forma horizontal */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 body{
@@ -79,19 +82,26 @@ h1, h2{
 
 h1{
   margin-top: 1.5em;
+  padding-left: 2.5em;
+}
+
+#p{
+  padding-left: 4.5em;
 }
 
 nav{
   display: flex;
-  gap: 10px; /* Separación entre cosas
+  gap: 5em; /* Separación entre cosas
   dependiendo de cómo se tenga organizado
   (horizontal o vertical */
   padding: 20px;
+
+  padding-left: 3em;
   background-color: rgb(248, 195, 115);
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 1000;
   width: 100%;
   margin-bottom: 20px;
 }
