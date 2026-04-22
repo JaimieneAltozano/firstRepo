@@ -52,6 +52,10 @@ header{
   align-items: center;
 }
 
+button{
+  display: none;
+}
+
 body{
   background-color: rgb(233, 215, 188);
   padding: 1em;
@@ -134,4 +138,25 @@ img{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+@media (max-width: 768px){  
+  nav{
+    display: none; 
+    display: flex;
+    padding: 8em;
+    align-items: end;
+    padding-bottom: 100em;
+    flex-direction: column;
+    width: 8em;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+  }
+
+  button{
+    display: block;
+  }
+
+  #proyects{
+    grid-column: span;
+  }
 }
