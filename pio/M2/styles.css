@@ -109,6 +109,13 @@ nav{
   margin-bottom: 20px;
 }
 
+.vavinvisible /* Crear clase */
+
+.navisible{
+  opacity: 1;
+  visibility: visible;
+}
+
 a{
   color: brown;
   text-decoration: none;
