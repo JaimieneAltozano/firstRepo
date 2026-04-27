@@ -98,7 +98,6 @@ nav{
   dependiendo de cómo se tenga organizado
   (horizontal o vertical */
   padding: 20px;
-
   padding-left: 3em;
   background-color: rgb(248, 195, 115);
   position: fixed;
@@ -185,6 +184,6 @@ img{
 }
 
   #proyects{
-    grid-column: span;
+    
   }
 }
