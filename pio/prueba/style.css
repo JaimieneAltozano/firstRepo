@@ -8,8 +8,6 @@
     --back: #292929;
     --letra: #919eac;
     --hover: #0d0d0d;
-    --letra2: #8de4dd;
-
 }
 
 body {
@@ -23,9 +21,7 @@ header {
     flex-direction: column;
     align-items: center;
     margin-bottom: 10em;
-    position: fixed;
     background-color: var(--hover);
-    width: 100%;
 }
 
 h1, h2, h3 {
@@ -38,14 +34,12 @@ nav {
     position: fixed;
     justify-content: center;
     margin: 10em;
-    z-index: 1000;
     top: 0;
     width: 100%;
     font-weight: bold;
     font-size: medium;
     background-color: var(--hover);
-    padding: .5rem;
-    margin-top: 0;
+    padding: 2em;
 }
 
 a {
@@ -54,20 +48,8 @@ a {
 }
 
 a:hover{
-    color: var(--letra2);
+    color: var(--hover);
 }
-
-a:hover::after{
-    content: "";
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--letras);
-    transition: width .5s ease all;
-}
-
 
 section {
     margin: 2em;
