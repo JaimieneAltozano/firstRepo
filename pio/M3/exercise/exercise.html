@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 5 — Analizador de Texto</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&family=Figtree:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0c1220;
+        --panel: #131c2e;
+        --card: #1a2640;
+        --border: #253350;
+        --text: #d4e0f4;
+        --muted: #5a7099;
+        --purple: #a78bfa;
+        --pink: #f472b6;
+        --yellow: #fcd34d;
+        --green: #34d399;
+        --red: #f87171;
+      }
+
+      body {
+        font-family: "Figtree", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 3rem 1.5rem;
+      }
+
+      /* ── Header ── */
+      .header {
+        width: 100%;
+        max-width: 720px;
+        margin-bottom: 2rem;
+      }
+      .header .tag {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--purple);
+        margin-bottom: 0.5rem;
+      }
+      .header h1 {
+        font-family: "Fraunces", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .header p {
+        font-size: 0.88rem;
+        color: var(--muted);
+        margin-top: 0.5rem;
+      }
+
+      /* ── Consigna ── */
+      .consigna {
+        width: 100%;
+        max-width: 720px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--purple);
+        border-radius: 8px;
+        padding: 1.3rem 1.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.86rem;
+        line-height: 1.8;
+        color: #8fa8cc;
+      }
+      .consigna strong {
+        color: var(--purple);
+      }
+      .consigna code {
+        font-size: 0.8rem;
+        background: rgba(167, 139, 250, 0.12);
+        color: var(--purple);
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+      .consigna ul {
+        padding-left: 1.2rem;
+        margin-top: 0.5rem;
+      }
+      .consigna li {
+        margin-bottom: 0.25rem;
+      }
+
+      /* ── Layout ── */
+      .layout {
+        width: 100%;
+        max-width: 720px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+      @media (max-width: 580px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── Área de texto ── */
+      .textarea-wrap {
+        width: 100%;
+        max-width: 720px;
+        margin-bottom: 1.2rem;
+      }
+      .textarea-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .char-counter {
+        color: var(--purple);
+      }
+
+      textarea {
+        width: 100%;
+        background: var(--panel);
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        padding: 1.2rem;
+        font-family: "Figtree", sans-serif;
+        font-size: 0.95rem;
+        color: var(--text);
+        resize: vertical;
+        min-height: 140px;
+        outline: none;
+        line-height: 1.7;
+        transition: border-color 0.2s;
+      }
+      textarea:focus {
+        border-color: var(--purple);
+      }
+      textarea::placeholder {
+        color: var(--border);
+      }
+
+      /* ── Botones acción ── */
+      .acciones {
+        width: 100%;
+        max-width: 720px;
+        display: flex;
+        gap: 0.7rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 0.65rem 1.3rem;
+        border: none;
+        border-radius: 8px;
+        font-family: "Figtree", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      .btn:hover {
+        opacity: 0.85;
+      }
+      .btn-analizar {
+        background: var(--purple);
+        color: #0c1220;
+      }
+      .btn-limpiar {
+        background: var(--card);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+
+      /* ── Stats grid ── */
+      .stats-grid {
+        width: 100%;
+        max-width: 720px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8rem;
+        margin-bottom: 1.2rem;
+      }
+      @media (max-width: 580px) {
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+        display: none;
+      }
+      .stat.visible {
+        display: block;
+      }
+      .stat-num {
+        font-family: "Fraunces", serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 1;
+        margin-bottom: 0.3rem;
+      }
+      .stat-name {
+        font-size: 0.7rem;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      /* ── Resultado avanzado ── */
+      .avanzado {
+        width: 100%;
+        max-width: 720px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: none;
+      }
+      .avanzado.visible {
+        display: block;
+      }
+
+      .avanzado-titulo {
+        font-family: "Fraunces", serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.2rem;
+      }
+
+      .info-fila {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.88rem;
+      }
+      .info-fila:last-child {
+        border-bottom: none;
+      }
+      .info-fila .llave {
+        color: var(--muted);
+      }
+      .info-fila .valor {
+        font-weight: 600;
+      }
+
+      /* ── Texto transformado ── */
+      .transformado-area {
+        width: 100%;
+        max-width: 720px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.2rem;
+        font-size: 0.92rem;
+        line-height: 1.7;
+        margin-top: 1.2rem;
+        color: var(--yellow);
+        display: none;
+        word-break: break-word;
+      }
+      .transformado-area.visible {
+        display: block;
+      }
+
+      /* ── Botones transformación ── */
+      .transform-btns {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+      .btn-transform {
+        padding: 0.4rem 0.9rem;
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        font-family: "Figtree", sans-serif;
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-transform:hover {
+        border-color: var(--purple);
+        color: var(--purple);
+      }
+      .btn-transform.activo {
+        background: rgba(167, 139, 250, 0.1);
+        border-color: var(--purple);
+        color: var(--purple);
+      }
+
+      /* ── Alerta ── */
+      .alerta {
+        width: 100%;
+        max-width: 720px;
+        background: rgba(248, 113, 113, 0.1);
+        border: 1px solid var(--red);
+        border-radius: 8px;
+        padding: 0.8rem 1.2rem;
+        color: var(--red);
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      .alerta.visible {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="tag">EJ — 05 · Variables y tipos</div>
+      <h1>Analizador de Texto</h1>
+      <p>
+        Extrae estadísticas y transforma texto usando métodos de String en
+        JavaScript.
+      </p>
+    </div>
+
+    <div class="consigna">
+      <strong>🎯 Tu misión:</strong> Analiza el texto ingresado y muestra
+      estadísticas detalladas.<br /><br />
+      <strong>Debes aplicar:</strong>
+      <ul>
+        <li>
+          <code>const</code> para el texto original y variables de análisis (no
+          deben cambiar)
+        </li>
+        <li>
+          <code>typeof</code> para verificar que el valor leído sea
+          <code>string</code>
+        </li>
+        <li>
+          Métodos de String: <code>.length</code> · <code>.trim()</code> ·
+          <code>.split()</code> · <code>.toLowerCase()</code> ·
+          <code>.toUpperCase()</code>
+        </li>
+        <li>
+          Contar palabras:
+          <code>texto.trim().split(/\s+/).length</code> (expresión regular
+          básica)
+        </li>
+        <li>
+          Contar oraciones: separar por <code>split(/[.!?]+/)</code> y filtrar
+          vacíos
+        </li>
+        <li>
+          Calcular tiempo de lectura: promedio 200 palabras/minuto →
+          <code>Number</code> resultado
+        </li>
+        <li>
+          Contador en tiempo real de caracteres mientras se escribe (evento
+          <code>input</code>)
+        </li>
+        <li>
+          Transformaciones: MAYÚSCULAS, minúsculas, Titulo, invertir texto
+        </li>
+      </ul>
+    </div>
+
+    <!-- ÁREA DE TEXTO -->
+    <div class="textarea-wrap">
+      <div class="textarea-label">
+        <span>Ingresa tu texto</span>
+        <span id="caracteres" class="char-counter">0 caracteres</span>
+      </div>
+      <textarea
+      oninput="contador()"
+      id="textArea"
+        placeholder="Escribe o pega aquí el texto que deseas analizar...&#10;&#10;Ejemplo: JavaScript es un lenguaje de programación que permite crear contenido dinámico en las páginas web. Con JS podemos manipular el DOM, crear variables y mucho más."
+        
+      ></textarea>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="acciones">
+      <button id="btnAnalizar" btn btn-analizar">Analizar texto</button>
+      <button class="btn btn-limpiar">Limpiar</button>
+    </div>
+
+    <!-- ALERTA -->
+    <div class="alerta">⚠️ Mensaje de error aquí</div>
+
+    <!-- STATS (ocultas) -->
+    <div id="oculto" class="stats-grid">
+      <div class="stat">
+        <div class="stat-num" style="color: var(--purple)">0</div>
+        <div class="stat-name">Caracteres</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color: var(--pink)">0</div>
+        <div class="stat-name">Palabras</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color: var(--yellow)">0</div>
+        <div class="stat-name">Oraciones</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color: var(--green)">0s</div>
+        <div class="stat-name">Lectura</div>
+      </div>
+    </div>
+
+    <!-- ANÁLISIS AVANZADO (oculto) -->
+    <div class="avanzado">
+      <div class="avanzado-titulo">// Análisis detallado</div>
+
+      <div class="info-fila">
+        <span class="llave">Caracteres sin espacios</span>
+        <span class="valor">—</span>
+      </div>
+      <div class="info-fila">
+        <span class="llave">Tipo del valor leído</span>
+        <span class="valor">—</span>
+      </div>
+      <div class="info-fila">
+        <span class="llave">Palabra más larga</span>
+        <span class="valor">—</span>
+      </div>
+      <div class="info-fila">
+        <span class="llave">Promedio letras / palabra</span>
+        <span class="valor">—</span>
+      </div>
+      <div class="info-fila">
+        <span class="llave">Primera palabra</span>
+        <span class="valor">—</span>
+      </div>
+      <div class="info-fila">
+        <span class="llave">Última palabra</span>
+        <span class="valor">—</span>
+      </div>
+
+      <div class="transform-btns">
+        <button class="btn-transform activo">Original</button>
+        <button class="btn-transform">MAYÚSCULAS</button>
+        <button class="btn-transform">minúsculas</button>
+        <button class="btn-transform">Formato Título</button>
+        <button class="btn-transform">otxeT odatrevi</button>
+      </div>
+    </div>
+
+    <!-- TEXTO TRANSFORMADO -->
+    <div class="transformado-area">El texto transformado aparecerá aquí...</div>
+
+    <script>
+      // PISTAS:
+      // 3. Al hacer clic en "Analizar":
+      //    a. Lee textarea.value y guárdalo en: const textoOriginal = ...
+      //    b. Verifica typeof textoOriginal === "string" antes de continuar
+      //    c. Valida que textoOriginal.trim().length > 0
+      //    d. Calcula todas las estadísticas con const (no cambian después de calcular)
+      // 4. Contar palabras: textoOriginal.trim().split(/\s+/).filter(p => p.length > 0).length
+      // 5. Contar oraciones: textoOriginal.split(/[.!?]+/).filter(s => s.trim().length > 0).length
+      // 6. Tiempo de lectura: Math.ceil(palabras / 200) minutos  — si < 1 min, mostrar en segundos
+      // 7. Caracteres sin espacios: textoOriginal.split(" ").join("").length
+      // 8. Palabra más larga: usa .split() y reduce/sort para encontrarla
+      // 9. Botones de transformación:
+      //    - MAYÚSCULAS: .toUpperCase()
+      //    - minúsculas: .toLowerCase()
+      //    - Título: divide en palabras y a cada una: palabra[0].toUpperCase() + resto
+      //    - Invertir: textoOriginal.split("").reverse().join("")
+      //    Cada botón cambia la clase "activo" y muestra el texto en .transformado-area
+      // 10. El botón "Limpiar" vacía el textarea y oculta todo
+
+      let textArea = document.getElementById("textArea");
+
+      function contador() {
+        const caracteres = document.getElementById("caracteres").textContent = `${textArea.value.length} caracteres`;
+      }
+
+      const originalText = textArea;
+      const btnAnalizar = getElementById("btnAnalizar");
+      const oculto = getElementById("oculto");
+
+      btnAnalizar.addEventListener("click", function() {
+        oculto.style.display = "block";
+        document.getElementById("oculto").hidden = false;
+        document.getElementById("oculto").classList.add("visible");
+        typeof(originalText);
+      })
+    </script>
+  </body>
+</html>
