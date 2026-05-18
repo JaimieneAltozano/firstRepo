@@ -23,8 +23,30 @@ const deleted = document.getElementById("deleted").textContent = "A number has b
 // "Map" practice
 const productos = new Map();
 
-productos.set(product1, {color: 'Yellow'});
-productos.set(product2, {color: 'Pink'});
+// Agregar productos 
+productos.set("Comida", {
+    name: "Mondongo e' piscao",
+    price: 0,
+    stock: 0,
+    description: "Por eso e' free, because no hay"
+});
+
+productos.set("Ropa", {
+    name: "Smoking",
+    price: 12,
+    stock: 1,
+    description: "No es para chirretes"
+});
+
+// Mostrar todos los productos
+for (const[categoria, info] of productos) {
+    alert(`Categoría: ${categoria}
+        Producto: ${info.name}
+        Price: $${info.price}
+        Stock: ${info.stock}
+        Description: ${info.description}`);
+}
+
 
 alert(Object.keys(product1)); // Mostrar clave
 alert(Object.values(product1)); // Mostrar valor
