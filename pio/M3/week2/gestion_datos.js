@@ -48,9 +48,5 @@ for (const[categoria, info] of productos) {
 }
 
 
-alert(Object.keys(product1)); // Mostrar clave
-alert(Object.values(product1)); // Mostrar valor
-alert(JSON.stringify(product1)); // Mostrar ambos :D
-
 // Creación de Map
 const showMap = document.getElementById('showMap').innerHTML =(productos.get("Ropa")).name;
