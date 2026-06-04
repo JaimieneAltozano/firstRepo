@@ -53,3 +53,4 @@ alert(Object.values(product1)); // Mostrar valor
 alert(JSON.stringify(product1)); // Mostrar ambos :D
 
 // Creación de Map
+const showMap = document.getElementById('showMap').innerHTML =(productos.get("Ropa")).name;
